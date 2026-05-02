@@ -2,6 +2,7 @@ package com.klef.fsad.exam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
 
 import com.klef.fsad.exam.model.Hotel;
@@ -19,6 +20,20 @@ public class HotelService {
         return repo.save(h);
     }
 
+    public Hotel getHotel(int id) {
+        Optional<Hotel> obj = repo.findById(id);
+        if(obj.isPresent()) {
+            return obj.get();
+        }
+        else {
+            throw new RuntimeException("Hotel Not Found");
+        }
+    }
+
+    public List<Hotel> getAllHotels() {
+        return repo.findAll();
+    }
+
     public Hotel updateHotel(int id, Hotel h) {
         Optional<Hotel> obj = repo.findById(id);
 
@@ -33,6 +48,17 @@ public class HotelService {
         }
         else {
             throw new RuntimeException("Not Found");
+        }
+    }
+
+    public String deleteHotel(int id) {
+        Optional<Hotel> obj = repo.findById(id);
+        if(obj.isPresent()) {
+            repo.deleteById(id);
+            return "Hotel deleted successfully";
+        }
+        else {
+            throw new RuntimeException("Hotel Not Found");
         }
     }
 }
